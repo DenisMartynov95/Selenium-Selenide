@@ -52,29 +52,7 @@ public class MainPage {
     // OPEN_QUESTION_1 - ЭТО КНОПКА ДЛЯ ВЫПАДАЮЩЕГО ANSWER. Суть проверки заключается в открытии ANSWER и сравнении, что у каждого вопроса есть опеределенный ответ
     private static final By QUESTIONS = By.xpath(".//div[@id='accordion__heading-0']");
 
-        public static final By OPEN_QUESTION_1 = By.id("accordion__heading-0");
-            public static final By QUESTIONS_1 = By.xpath(".//div[@id='accordion__heading-0']");
 
-        public static final By OPEN_QUESTION_2 = By.id("accordion__heading-1");
-            public static final By QUESTIONS_2 = By.xpath(".//div[@id='accordion__heading-1']");
-
-        public static final By OPEN_QUESTION_3 = By.id("accordion__heading-2");
-            public static final By QUESTIONS_3 = By.xpath(".//div[@id='accordion__heading-2']");
-
-        public static final By OPEN_QUESTION_4 = By.id("accordion__heading-3");
-            public static final By QUESTIONS_4 = By.xpath(".//div[@id='accordion__heading-3']");
-
-        public static final By OPEN_QUESTION_5 = By.id("accordion__heading-4");
-            public static final By QUESTIONS_5 = By.xpath(".//div[@id='accordion__heading-4']");
-
-        public static final By OPEN_QUESTION_6 = By.id("accordion__heading-5");
-            public static final By QUESTIONS_6 = By.xpath(".//div[@id='accordion__heading-5']");
-
-        public static final By OPEN_QUESTION_7 = By.id("accordion__heading-6");
-            public static final By QUESTIONS_7 = By.xpath(".//div[@id='accordion__heading-6']");
-
-        public static final By OPEN_QUESTION_8 = By.id("accordion__heading-7");
-            public static final By QUESTIONS_8 = By.xpath(".//div[@id='accordion__heading-7']");
 
         // Локаторы для ассертов:
             public static final By ANSWER_1 = By.xpath(".//div[2]/p[text() = 'Сутки — 400 рублей. Оплата курьеру — наличными или картой.']");
@@ -111,13 +89,6 @@ public class MainPage {
     }
 
 
-    //ПОДУМАЙ НАД РЕАЛИЗАЦИЕЙ ПАРАМЕТРИЗАЦИИ В ОТДЕЛЬНЫЙ ТЕСТОВЫЙ КЛАСС, А НЕ СЮДА, ТК ЗДЕСЬ ВИЖУ ВАРИАНТ ТОЛЬКО НАД СОЗДАНИЕМ ARRAYLIST И ПЕРЕБОРА ВСЕХ ВАРИАНТОВ ЦИКЛАМИ
-    //НЕУДОБНО КАЖДЫЙ РАЗ ХОДИТЬ В ТЕСТОВЫЙ КЛАСС ЧТОБЫ ВНЕДРЯТЬ ЗАВИСИМОСТИ
-    //НЕУДОБНО РАБОТАТЬ С ТАКИМ ОГРОМНЫМ КОЛИЧЕСТВОМ ПЕРЕМЕННЫХ И ВНЕДРЯТЬ МЕТОДЫ, НАДО ПРИДУМАТЬ КАК СДЕЛАТЬ КОД МЕНЬШЕ И ЧТОБЫ ОН РАБОТАЛ
-
-//    public boolean checkListOfQuestionsTest() {
-//        return driver.findElement(ANSWER_1).getText().contains("Сутки — 400 рублей. Оплата курьеру — наличными или картой");
-//    }
 
 
 }
