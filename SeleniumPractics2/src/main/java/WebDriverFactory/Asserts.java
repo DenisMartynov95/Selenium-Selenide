@@ -3,6 +3,7 @@ package WebDriverFactory;
 // Класс для ожидаемых значений при сравнении через Assert
 public class Asserts {
 
+<<<<<<< HEAD
 
     //===============================================================================================================
      /*
@@ -17,4 +18,6 @@ public class Asserts {
     public static final String EXPECTED_TEXT_7_QUESTION = "Можно ли отменить заказ?";
     public static final String EXPECTED_TEXT_8_QUESTION = "Я жизу за МКАДом, привезёте?";
 
+=======
+>>>>>>> 54f8fcfb79fc1589a0a463589356ec763bf26b50
 }
