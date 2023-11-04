@@ -1,13 +1,24 @@
 package ParametrizedTests;
 
+import WebDriverFactory.Asserts;
+import WebDriverFactory.UrlSettings;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static ParametrizedTests.checkQuestions.ADD_COOKIE_BTN;
+
 public class checkAnswers {
-    private WebDriver driver;
 
 
     /*
@@ -22,14 +33,86 @@ public class checkAnswers {
     public static final By OPEN_QUESTION_7 = By.id("accordion__heading-6");
     public static final By OPEN_QUESTION_8 = By.id("accordion__heading-7");
 
+    static List<By> openQuestions = new ArrayList<>();
+    static {
+        openQuestions.add(OPEN_QUESTION_1);
+        openQuestions.add(OPEN_QUESTION_2);
+        openQuestions.add(OPEN_QUESTION_3);
+        openQuestions.add(OPEN_QUESTION_4);
+        openQuestions.add(OPEN_QUESTION_5);
+        openQuestions.add(OPEN_QUESTION_6);
+        openQuestions.add(OPEN_QUESTION_7);
+        openQuestions.add(OPEN_QUESTION_8);
+    }
+
+
+
+    //==================================================================================
+    /*
+        БЛОК КОДА связанный с локаторами, где храняться локаторы с ответами
+                                                                                */
+
+    public static final By ANSWER_1 = By.xpath(".//div[1]/div[2]/p");
+    public static final By ANSWER_2 = By.xpath(".//div[2]/div[2]/p");
+    public static final By ANSWER_3 = By.xpath(".//div[3]/div[2]/p");
+    public static final By ANSWER_4 = By.xpath(".//div[4]/div[2]/p");
+    public static final By ANSWER_5 = By.xpath(".//div[5]/div[2]/p");
+    public static final By ANSWER_6 = By.xpath(".//div[6]/div[2]/p");
+    public static final By ANSWER_7 = By.xpath(".//div[7]/div[2]/p");
+    public static final By ANSWER_8 = By.xpath(".//div[8]/div[2]/p");
+
+    //==================================================================================
+    /*
+        БЛОК КОДА с параметризацией
+                                                                                       */
+    private WebDriver driver;
+    private By answer;
+    private String expected;
+
+    public checkAnswers(By answer, String expected) {
+        this.answer = answer;
+        this.expected = expected;
+    }
+
+    @Parameterized.Parameters
+    public static  Object [][] getParameters() {
+        return new Object[][] {{ANSWER_1, Asserts.EXPECTED_TEXT_1_ANSWER},
+                {ANSWER_2,Asserts.EXPECTED_TEXT_2_ANSWER},
+                {ANSWER_3,Asserts.EXPECTED_TEXT_3_ANSWER},
+                {ANSWER_4,Asserts.EXPECTED_TEXT_4_ANSWER},
+                {ANSWER_5,Asserts.EXPECTED_TEXT_5_ANSWER},
+                {ANSWER_6,Asserts.EXPECTED_TEXT_6_ANSWER},
+                {ANSWER_7,Asserts.EXPECTED_TEXT_7_ANSWER},
+                {ANSWER_8,Asserts.EXPECTED_TEXT_8_ANSWER},
+        };
+    }
+
+
+
+
 
     @Before
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
+//        driver.manage().window().maximize();
     }
 
+    @Test
+    public void checkAnswers() {
+        driver.get(UrlSettings.URL1);
 
+        driver.findElement(ADD_COOKIE_BTN).click(); // Нажал "Принять куки"
+
+        WebElement element = driver.findElement(By.xpath(".//div[2]/div[@class = 'accordion']")); // Проскроллил
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+
+        for (int i = 0; i < openQuestions.size(); i++) {
+            driver.findElement(openQuestions.get(i)).click();
+            String actual = driver.findElement(answer).getText();
+
+            Assert.assertEquals(actual, expected);
+        }
+    }
 }
