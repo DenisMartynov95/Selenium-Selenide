@@ -96,8 +96,8 @@ public class checkQuestions {
 
         driver.findElement(ADD_COOKIE_BTN).click(); // Нажал "Принять куки"
 
-        WebElement element = driver.findElement(By.xpath(".//div[@class = 'accordion']"));
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
+        WebElement element = driver.findElement(By.xpath(".//div[@class = 'accordion']")); //  ↓
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);  // Скроллю до нужного элемента
 
         String actual = driver.findElement(question).getText();
         try {
@@ -107,6 +107,7 @@ public class checkQuestions {
         } finally {
             Assert.assertEquals(actual, expected);
             System.out.println("Проверка ассерта: " + actual);
+            System.out.println("Кейс проверен успешно!");
             System.out.println("___________________________________________");
         }
     }
@@ -117,3 +118,4 @@ public class checkQuestions {
     }
 
 }
+
