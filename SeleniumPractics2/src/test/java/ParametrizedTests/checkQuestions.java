@@ -1,7 +1,6 @@
 package ParametrizedTests;
 
-import PageObject.MainPage;
-import WebDriverFactory.Asserts;
+import WebDriverFactory.AssertsForParametrizedTests;
 import WebDriverFactory.UrlSettings;
 import org.junit.After;
 import org.junit.Assert;
@@ -15,9 +14,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @RunWith(Parameterized.class)
@@ -66,14 +62,14 @@ public class checkQuestions {
 
     @Parameterized.Parameters
     public static Object[][] getParameters() {
-        return new Object[][] {{QUESTIONS_1,Asserts.EXPECTED_TEXT_1_QUESTION},
-                {QUESTIONS_2, Asserts.EXPECTED_TEXT_2_QUESTION},
-                {QUESTIONS_3,Asserts.EXPECTED_TEXT_3_QUESTION},
-                {QUESTIONS_4,Asserts.EXPECTED_TEXT_4_QUESTION},
-                {QUESTIONS_5,Asserts.EXPECTED_TEXT_5_QUESTION},
-                {QUESTIONS_6,Asserts.EXPECTED_TEXT_6_QUESTION},
-                {QUESTIONS_7,Asserts.EXPECTED_TEXT_7_QUESTION},
-                {QUESTIONS_8,Asserts.EXPECTED_TEXT_8_QUESTION},
+        return new Object[][] {{QUESTIONS_1, AssertsForParametrizedTests.EXPECTED_TEXT_1_QUESTION},
+                {QUESTIONS_2, AssertsForParametrizedTests.EXPECTED_TEXT_2_QUESTION},
+                {QUESTIONS_3, AssertsForParametrizedTests.EXPECTED_TEXT_3_QUESTION},
+                {QUESTIONS_4, AssertsForParametrizedTests.EXPECTED_TEXT_4_QUESTION},
+                {QUESTIONS_5, AssertsForParametrizedTests.EXPECTED_TEXT_5_QUESTION},
+                {QUESTIONS_6, AssertsForParametrizedTests.EXPECTED_TEXT_6_QUESTION},
+                {QUESTIONS_7, AssertsForParametrizedTests.EXPECTED_TEXT_7_QUESTION},
+                {QUESTIONS_8, AssertsForParametrizedTests.EXPECTED_TEXT_8_QUESTION},
         };
     }
 

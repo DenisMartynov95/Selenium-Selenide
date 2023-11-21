@@ -1,6 +1,6 @@
 package ParametrizedTests;
 
-import WebDriverFactory.Asserts;
+import WebDriverFactory.AssertsForParametrizedTests;
 import WebDriverFactory.UrlSettings;
 import org.junit.After;
 import org.junit.Assert;
@@ -21,7 +21,7 @@ import java.util.List;
 import static ParametrizedTests.checkQuestions.ADD_COOKIE_BTN;
 
 @RunWith(Parameterized.class)
-public class checkAnswers {
+public class CheckAnswers {
 
 
     /*
@@ -36,17 +36,17 @@ public class checkAnswers {
     public static final By OPEN_QUESTION_7 = By.id("accordion__heading-6");
     public static final By OPEN_QUESTION_8 = By.id("accordion__heading-7");
 
-//    static List<By> openQuestions = new ArrayList<>();
-//    static {
-//        openQuestions.add(OPEN_QUESTION_1);
-//        openQuestions.add(OPEN_QUESTION_2);
-//        openQuestions.add(OPEN_QUESTION_3);
-//        openQuestions.add(OPEN_QUESTION_4);
-//        openQuestions.add(OPEN_QUESTION_5);
-//        openQuestions.add(OPEN_QUESTION_6);
-//        openQuestions.add(OPEN_QUESTION_7);
-//        openQuestions.add(OPEN_QUESTION_8);
-//    }
+    static List<By> openQuestions = new ArrayList<>();
+    static {
+        openQuestions.add(OPEN_QUESTION_1);
+        openQuestions.add(OPEN_QUESTION_2);
+        openQuestions.add(OPEN_QUESTION_3);
+        openQuestions.add(OPEN_QUESTION_4);
+        openQuestions.add(OPEN_QUESTION_5);
+        openQuestions.add(OPEN_QUESTION_6);
+        openQuestions.add(OPEN_QUESTION_7);
+        openQuestions.add(OPEN_QUESTION_8);
+    }
 
 
 
@@ -73,7 +73,7 @@ public class checkAnswers {
     private final By answer;
     private final String expected;
 
-    public checkAnswers(By locator,By answer, String expected) {
+    public CheckAnswers(By locator, By answer, String expected) {
         this.locator = locator;
         this.answer = answer;
         this.expected = expected;
@@ -81,14 +81,14 @@ public class checkAnswers {
 
     @Parameterized.Parameters
     public static  Object [][] getParameters() {
-        return new Object[][] {{OPEN_QUESTION_1, ANSWER_1, Asserts.EXPECTED_TEXT_1_ANSWER},
-                {OPEN_QUESTION_2, ANSWER_2, Asserts.EXPECTED_TEXT_2_ANSWER},
-                {OPEN_QUESTION_3, ANSWER_3, Asserts.EXPECTED_TEXT_3_ANSWER},
-                {OPEN_QUESTION_4, ANSWER_4, Asserts.EXPECTED_TEXT_4_ANSWER},
-                {OPEN_QUESTION_5, ANSWER_5, Asserts.EXPECTED_TEXT_5_ANSWER},
-                {OPEN_QUESTION_6, ANSWER_6, Asserts.EXPECTED_TEXT_6_ANSWER},
-                {OPEN_QUESTION_7, ANSWER_7, Asserts.EXPECTED_TEXT_7_ANSWER},
-                {OPEN_QUESTION_8, ANSWER_8, Asserts.EXPECTED_TEXT_8_ANSWER},
+        return new Object[][] {{OPEN_QUESTION_1, ANSWER_1, AssertsForParametrizedTests.EXPECTED_TEXT_1_ANSWER},
+                {OPEN_QUESTION_2, ANSWER_2, AssertsForParametrizedTests.EXPECTED_TEXT_2_ANSWER},
+                {OPEN_QUESTION_3, ANSWER_3, AssertsForParametrizedTests.EXPECTED_TEXT_3_ANSWER},
+                {OPEN_QUESTION_4, ANSWER_4, AssertsForParametrizedTests.EXPECTED_TEXT_4_ANSWER},
+                {OPEN_QUESTION_5, ANSWER_5, AssertsForParametrizedTests.EXPECTED_TEXT_5_ANSWER},
+                {OPEN_QUESTION_6, ANSWER_6, AssertsForParametrizedTests.EXPECTED_TEXT_6_ANSWER},
+                {OPEN_QUESTION_7, ANSWER_7, AssertsForParametrizedTests.EXPECTED_TEXT_7_ANSWER},
+                {OPEN_QUESTION_8, ANSWER_8, AssertsForParametrizedTests.EXPECTED_TEXT_8_ANSWER},
         };
     }
 
@@ -99,7 +99,7 @@ public class checkAnswers {
     @Before
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--headless");
         driver = new ChromeDriver(options);
 //        driver.manage().window().maximize();
     }
@@ -116,17 +116,21 @@ public class checkAnswers {
         driver.findElement(locator).click(); // Открываю вопрос, чтобы открыть блок с текстом ответа
         String actual = driver.findElement(answer).getText();
         Assert.assertEquals(actual, expected);
+        if (actual.equals(expected)) {
+            System.out.println("Тест по проверке:" + expected);
+            System.out.println("Прошел успешно!");
+            System.out.println("_________________________");
+        }
 
-
+    }
 //        for (int i = 0; i < openQuestions.size(); i++) {
-//            driver.findElement(openQuestions.get(i)).click();
+//            driver.findElement(locator).click();
 //            String actual = driver.findElement(answer).getText();
 //            Assert.assertEquals(actual, expected);
 //        }
-    }
 
-//    @After
-//    public void shutDown() {
-//        driver.quit();
-//    }
+    @After
+    public void shutDown() {
+        driver.quit();
+    }
 }
