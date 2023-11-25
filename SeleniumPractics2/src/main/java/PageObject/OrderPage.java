@@ -1,7 +1,10 @@
 package PageObject;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+
+import java.util.Optional;
 
 public class OrderPage {
 
@@ -25,25 +28,27 @@ public class OrderPage {
 
 
     private final By neededMetroVariant = By.className("Order_SelectOption__82bhS.select-search__option"); // После ввода Сокольники, должен показаться список и нужный мне вариант там
-                    private final By alterNeededMetroVariant = By.xpath("/html/body/div/div/div[2]/div[2]/div[4]/div/div[2]/ul/li[1]/button");
+    private final By alterNeededMetroVariant = By.xpath("/html/body/div/div/div[2]/div[2]/div[4]/div/div[2]/ul/li[1]/button");
     //===================================================================================================
         /*
                      Локаторы   подстраницы с полями для ввода для создания заказа (ВТОРАЯ СТРАНИЦА ОФОРМЛЕНИЯ ЗАКАЗА "ПРО АРЕНДУ")
                                                                                                                                         */
     private final By whenDeliveryInput = By.xpath(".//*[@placeholder = '* Когда привезти самокат']"); // Тоже при клике выводится лист, соответвенно подсоединяю локатор
-                    private final By chooseDeliveryTime = By.xpath("");
+    //                private final By chooseDeliveryTime = By.xpath(".//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/div[2]/div[2]/div/div/div[2]/div[2]/div[5]/div[@class = 'react-datepicker__day react-datepicker__day--026']");
 
     private final By periodInput = By.xpath(".//div[2]/div/div[@class = 'Dropdown-placeholder']"); // При клике должен вывестись лист, соответственно подсоединяю  дополнительный локатор
-                    private final By choosePeriod = By.xpath(".//div[@class = 'Dropdown-menu']/div[text() = 'трое суток']");
+        private final By choosePeriod = By.xpath(".//div[@class = 'Dropdown-menu']/div[text() = 'трое суток']");
 
     private final By blackColorOfScooterCheckbox = By.id("black");
     private final By commentForCourierInput = By.xpath(".//div[2]/div[4]/input[@class = 'Input_Input__1iN_Z Input_Responsible__1jDKN']");
     private final By finishOrderBtn = By.xpath(".//div[3]/button[2]");
 
-                    //Локатор для модального окна, где нужно подтвердить заказ
-                    private final By locatorForCheckModalIsVisible = By.xpath(".//div/div[@class = 'Order_ModalHeader__3FDaJ']");
-                    private final By sayYesOnModalWindow = By.xpath(".//div/div[@class = 'Order_Modal__YZ-d3']/div[@class = 'Order_Buttons__1xGrp']/button[2]");
+    //Локатор для модального окна, где нужно подтвердить заказ
+    private final By locatorForCheckModalIsVisible = By.xpath(".//div/div[@class = 'Order_ModalHeader__3FDaJ']");
+        private final By sayYesOnModalWindow = By.xpath(".//div/div[@class = 'Order_Modal__YZ-d3']/div[@class = 'Order_Buttons__1xGrp']/button[2]");
 
+    private final By checkStatusBtn = By.xpath("//div[5]/div[2]/button[@class = 'Button_Button__ra12g Button_Middle__1CSJM']");
+    private final By locatorForExtractStatusOrderId = By.xpath("/html/body/div/div/div[2]/div[1]/div/input");
     //==============================================
         /*
                         Локаторы для АССЕРТОВ
@@ -82,14 +87,15 @@ public class OrderPage {
     }
 
     public OrderPage chooseWhenDelivery() {
-        driver.findElement(whenDeliveryInput).click();
-        driver.findElement(chooseDeliveryTime).click();
+        driver.findElement(whenDeliveryInput).sendKeys("25.02.2023");
+        driver.findElement(whenDeliveryInput).sendKeys(Keys.ENTER);
+        // driver.findElement(chooseDeliveryTime).click();
         return this;
     }
 
     public OrderPage choosePeriod() {
         driver.findElement(periodInput).click();
-        driver.findElement(choosePeriod);
+        driver.findElement(choosePeriod).click();
         return this;
     }
 
@@ -103,7 +109,21 @@ public class OrderPage {
         return this;
     }
 
-    public boolean checkSuccessOrder () {
+    public boolean checkSuccessOrder() {
+        try {
+            return driver.findElement(locatorForSuccessOrderMessage).isDisplayed();
+        } catch (Exception e) {
+            System.out.println("Тест по проверке заказа самоката ПРОВАЛИЛСЯ!");
+        }
         return driver.findElement(locatorForSuccessOrderMessage).isDisplayed();
+    }
+
+    // Метод расчитан на то, что заказ был успешно создан, чтобы извлечь id заказа и работать с ним
+
+    static String idOrder;
+    public String checkStatusOrderAndSaveThisId() {
+        driver.findElement(checkStatusBtn).click();
+        idOrder = driver.findElement(locatorForExtractStatusOrderId).getText();
+        return "Манипуляция прошла УСПЕШНО! ID заказа: " + idOrder;
     }
 }
