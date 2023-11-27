@@ -1,8 +1,10 @@
 package PageObject;
 
+import WebDriverFactory.TestsData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.util.Optional;
 
@@ -47,8 +49,11 @@ public class OrderPage {
     private final By locatorForCheckModalIsVisible = By.xpath(".//div/div[@class = 'Order_ModalHeader__3FDaJ']");
         private final By sayYesOnModalWindow = By.xpath(".//div/div[@class = 'Order_Modal__YZ-d3']/div[@class = 'Order_Buttons__1xGrp']/button[2]");
 
+    // Локаторы использующиеся в ТЕСТАХ №2
     private final By checkStatusBtn = By.xpath("//div[5]/div[2]/button[@class = 'Button_Button__ra12g Button_Middle__1CSJM']");
-    private final By locatorForExtractStatusOrderId = By.xpath("/html/body/div/div/div[2]/div[1]/div/input");
+    private final By locatorForExtractStatusOrderId = By.xpath(".//div[1]/div/input[@value]");
+
+
     //==============================================
         /*
                         Локаторы для АССЕРТОВ
@@ -118,12 +123,16 @@ public class OrderPage {
         return driver.findElement(locatorForSuccessOrderMessage).isDisplayed();
     }
 
+    /*
+                     Для ТЕСТА №3
+                                             */
     // Метод расчитан на то, что заказ был успешно создан, чтобы извлечь id заказа и работать с ним
-
-    static String idOrder;
     public String checkStatusOrderAndSaveThisId() {
         driver.findElement(checkStatusBtn).click();
-        idOrder = driver.findElement(locatorForExtractStatusOrderId).getText();
-        return "Манипуляция прошла УСПЕШНО! ID заказа: " + idOrder;
+        WebElement element = driver.findElement(locatorForExtractStatusOrderId); // Создаю елемент для сложного поиска, в данном случае вычленение value
+        TestsData.ID_ORDER = element.getAttribute("value"); // затем помещаю value в ID_ORDER. НА StackOverflow рекомендовали .getAttribute, и реально помогло
+        // idOrder = driver.findElement(locatorForExtractStatusOrderId).getAttribute("value"); // Получаю value, тк нужно значение находится в value
+        return "Манипуляция прошла УСПЕШНО! ID заказа: " + TestsData.ID_ORDER;
     }
+
 }
