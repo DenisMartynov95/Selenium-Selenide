@@ -1,6 +1,7 @@
 import PageObject.MainPage;
 import PageObject.OrderPage;
 import WebDriverFactory.AssertsForSimpleTests;
+import WebDriverFactory.TestsData;
 import WebDriverFactory.UrlSettings;
 import WebDriverFactory.WaitSettings;
 import io.qameta.allure.Step;
@@ -40,12 +41,13 @@ public class Tests {
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(WaitSettings.WAIT_2_SECOND, TimeUnit.SECONDS);
+
     }
 
-    @After
-    public void shutDown() {
-        driver.quit();
-    }
+//    @After
+//    public void shutDown() {
+//        driver.quit();
+//    }
 
     @Test
     @Step
@@ -81,6 +83,26 @@ public class Tests {
                 .choosePeriod()
                 .fillOtherInputsOnAboutRentPage()
                 .checkStatusOrderAndSaveThisId();
+        if (getIdOrder != null) { // Впихнул условия для того, чтобы отследить, что переменная в итоге не нулевая, а то были ошибки в коде в этом месте
+            System.out.println(getIdOrder);
+        } else {
+            System.out.println("Тест №2 провалился");
+        }
     }
 
+    @Test // ПРОБЛЕМА, СТАТИЧНАЯ ПЕРЕМЕННАЯ ОБНУЛЯЕТСЯ ПОСЛЕ ТЕСТА №3
+    @Step
+    @DisplayName("Тест по проверке функции поиска заказа по ID, который уже был присвоен в тесте №2")
+    public void checkOrder() {
+        driver.get(UrlSettings.URL1);
+
+        boolean checkOrder = new MainPage(driver)
+                .clickOnCookieBtn()
+                .logsIdOrderValue()
+                .fillInputsForCheckOrderTest()
+                .checkOrder();
+        MatcherAssert.assertThat(AssertsForSimpleTests.ORDER_NAME, checkOrder);
+        System.out.println("Тест №3 прошел успешно!");
+
+    }
     }
