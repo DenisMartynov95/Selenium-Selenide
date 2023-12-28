@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 
 public class MainPage {
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -35,10 +35,10 @@ public class MainPage {
     private final By btnChooseGeoCurrent = By.xpath(".//div[@class = 'geolocation-list']/ul/li[9]");
 
 
-    public MainPage openListWithGeoCurrent() {
+    public KazanPage openListWithGeoCurrent() {
         driver.findElement(btnOpenListForChooseGeoCurrent).click();
         driver.findElement(btnChooseGeoCurrent).click();
-
+        return new KazanPage(driver);
     }
 
 

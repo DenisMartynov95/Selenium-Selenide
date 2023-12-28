@@ -1,8 +1,11 @@
-
+import PageObject.KazanPage;
+import PageObject.MainPage;
+import WebDriverFactory.Asserts;
 import WebDriverFactory.UrlSettings;
 import WebDriverFactory.WaitSettings;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -24,7 +27,7 @@ public class TestClass {
     @Before
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no sandbox", "--disable-dev-shm-usage");
+        options.addArguments("--no sandbox", "--disable-dev-shm-usage", "--headless");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(WaitSettings.WAIT_2_SECOND, TimeUnit.SECONDS);
@@ -32,7 +35,24 @@ public class TestClass {
 
     @Test
     @Step
-    @DisplayName("Тест №1: Функционал выбора точки геолокации)
-    public void t1_chooseGeoCurrent()
+    @DisplayName("Тест №1: Функционал выбора точки геолокации")
+    public void t1_chooseGeoCurrent() {
+        driver.get(UrlSettings.MAIN_PAGE_URL);
+        boolean checkChosenCurrent = new MainPage(driver)
+                .acceptCookie()
+                .openListWithGeoCurrent()
+                .checkChosenCurrent();
+        MatcherAssert.assertThat(Asserts.CHOSEN_CITY, checkChosenCurrent);
+        System.out.println("Тест №1 прошел успешно!");
+    }
 
+//    @Test
+//    @Step
+//    @DisplayName("Тест №2: Функционал выбора туров")
+//    public void t2_chooseTour() {
+//        driver.get(UrlSettings.KAZAN_PAGE_URL);
+//        boolean checkSuccessBookingTour() {
+//
+//        }
+//    }
 }
