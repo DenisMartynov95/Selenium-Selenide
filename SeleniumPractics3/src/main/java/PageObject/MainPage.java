@@ -20,27 +20,28 @@ public class MainPage {
     //
         //
             // Методы и переменные относящиеся ко всем тестам (Принятие куки и прочие взаимодействия)
-    private final By btnAcceptCookie = By.xpath(".//button[@class = 'btn btn-primary btn-sm d-block mx-auto mt-1 px-4 btnCookie']");
+//    private final By btnAcceptCookie = By.xpath(" ");
+//
+//    public MainPage acceptCookie() {
+//        return this;
+//    }
 
-    public MainPage acceptCookie() {
-        driver.findElement(btnAcceptCookie).click();
-        return this;
-    }
 
 
     //
         //
             // Методы и переменные для теста №1
-    private final By btnOpenListForChooseGeoCurrent = By.xpath(".//div[@class = 'geolocation-current']");
-    private final By btnChooseGeoCurrent = By.xpath(".//div[@class = 'geolocation-list']/ul/li[9]");
 
+    private final By btnChangeGeoCity = By.xpath(".//span[@class = 'regionPanelShow']");
+    private final By cityBlockLocator = By.xpath(".//div[@id = 'regionPanel']");
+    private final By btnCity = By.xpath(".//div[1]/div/ul/li[38]/a[@title = 'Казань']");
 
-    public KazanPage openListWithGeoCurrent() {
-        driver.findElement(btnOpenListForChooseGeoCurrent).click();
-        driver.findElement(btnChooseGeoCurrent).click();
+    public KazanPage changeGeoCity() {
+        driver.findElement(btnChangeGeoCity).click();
+        driver.findElement(cityBlockLocator).isDisplayed();
+        driver.findElement(btnCity).click();
         return new KazanPage(driver);
     }
-
 
 }
 
